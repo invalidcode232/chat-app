@@ -1,0 +1,27 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "Chat app powered by Node.js",
+  "main": "app.js",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "ejs-locals": "^1.0.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/invalidcode232/chat-app.git"
+  },
+  "author": "invalidcode232",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/invalidcode232/chat-app/issues"
+  },
+  "homepage": "https://github.com/invalidcode232/chat-app#readme"
+}

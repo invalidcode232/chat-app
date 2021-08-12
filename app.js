@@ -1,6 +1,6 @@
 //#region Dependencies
 const express = require('express')
-const http = require('http')
+const session = require('express-session')
 const config = require('./config/config.json')
 const path = require('path')
 //#endregion
@@ -13,15 +13,20 @@ const app = express()
 // Set our views directory and engine
 app.engine('ejs', require('ejs-locals'))
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', 'ejs');
 //#endregion
 
 
 //#region Main
-app.get('/', (req, res) => {
-    res.render('index.ejs', {
-        title: "Hello, world!"
+app.get('/dashboard', (req, res) => {
+    res.render('dashboard.ejs', {
+        page: 'Dashboard'
     })
+})
+
+app.get('/chat', (req, res) => {
+
 })
 //#endregion
 

@@ -1,0 +1,42 @@
+<% layout("layout") %>
+
+<div class="d-flex">
+    <div id="chat-container" class="bg-light">
+        <a href="/" class="d-flex align-items-center p-3 link-dark text-decoration-none border-bottom">
+            <span class="fs-5 fw-semibold">Chats</span>
+        </a>
+        <div class="list-group list-group-flush border-bottom"=>
+            <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1">Client 1</strong>
+                    <small>Wed</small>
+                </div>
+                <div class="col-10 mb-1 small">Okay, got it!</div>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1">Client 2</strong>
+                    <small class="text-muted">Thu</small>
+                </div>
+                <div class="col-10 mb-1 small">Remind me at 9PM tomorrow.</div>
+            </a>
+        </div>        
+    </div>
+
+    <div class="flex-fill">
+        <div class="container p-4">
+            <div id="message-container">
+                <div class="card shadow" id="profile-card">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold">Client 1</h5>
+                        <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i>(+62) 021-1234-567</small>  
+                        <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i>example@example.com</small> 
+                    </div>
+                </div>                
+            </div>
+
+            <input type="text" placeholder="Message.." class="form-control w-75 d-inline">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
