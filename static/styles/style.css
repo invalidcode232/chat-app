@@ -11,12 +11,12 @@
 }
 
 
-#client-message-container {
+#client-messages-container {
     width: 60vw;
     height: 75vh;
     border-radius: 10px;
     border: 1px solid rgba(0,0,0,.125);
-    padding: 10px;
+    padding: 15px;
 }
 
 #client-message-form {
