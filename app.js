@@ -4,6 +4,7 @@ const session = require('express-session');
 const config = require('./config/config.json');
 const path = require('path');
 const mysql = require('mysql');
+const utils = require('./utils');
 //#endregion
 
 
@@ -28,7 +29,7 @@ app.use(session({
     resave: false
 }));
 
-console.log(`[${config.app_name}] Express app successfully set up!`);
+utils.log(`Express app successfully set up!`)
 
 // Connect to database
 const con = mysql.createConnection({
@@ -41,7 +42,7 @@ const con = mysql.createConnection({
 con.connect((err) => {
     if (err) throw err;
 
-    console.log(`[${config.app_name}] Database "${config.db_name}" connected!`);
+    utils.log(`Database "${config.db_name}" connected!`)
 });
 //#endregion
 
@@ -69,9 +70,16 @@ app.get('/chat', (req, res) => {
 app.post('/chat', (req, res) => {
     req.session.client_data = req.body;
 
-    name = req.body.name;
-    email = req.body.email;
-    phone = req.body.phone;
+    let name = req.body.name;
+    let email = req.body.email;
+    let phone = req.body.phone;
+
+    let sql = "INSERT INTO `whatsapp`.`sessions` (`id`, `client_name`, `client_email`, `client_phone`, `status`, `timestamp`) VALUES (DEFAULT, ?, ?, ?, ?, FROM_UNIXTIME(?));"
+    con.query(sql, [name, email, phone, "active", utils.get_timestamp().toString()], (err, res) => {
+        if (err) throw err;
+
+        utils.log(`Registered new session`)
+    })
 
     res.redirect('/chat');
 });
@@ -80,6 +88,6 @@ app.post('/chat', (req, res) => {
 
 //#region Listener
 app.listen(config.port, () => {
-    console.log(`[${config.app_name}] App running at port ${config.port}! http://localhost:3000/dashboard`);
+    utils.log(`App running at port ${config.port}! http://localhost:3000/dashboard`);
 });
 //#endregion

@@ -15,3 +15,7 @@ const message = {
         container.appendChild(card);
     }
 }
+
+function get_timestamp() {
+    return Math.floor(Date.now() / 1000)
+}

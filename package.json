@@ -9,7 +9,8 @@
     "ejs-locals": "^1.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node-mysql": "^0.4.2"
   },
   "devDependencies": {},
   "scripts": {
