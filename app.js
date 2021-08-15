@@ -4,7 +4,7 @@ const session = require('express-session');
 const config = require('./config/config.json');
 const path = require('path');
 const mysql = require('mysql');
-const utils = require('./utils');
+const utils = require('./utils/utils');
 //#endregion
 
 
