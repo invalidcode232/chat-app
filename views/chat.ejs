@@ -1,0 +1,87 @@
+<% layout("layout") %>
+
+<div class="d-flex justify-content-center mt-3">
+    <h2><%= page %></h2>
+</div>
+
+<div class="d-flex justify-content-center mt-2">
+    <div class="bg-light" id="client-message-container">
+
+        <div class="card message-card shadow-sm">
+            <div class="card-body">
+                <p class="card-text">
+                    Hello!
+                </p>
+            </div>
+        </div>
+
+        <div class="card message-card inverse bg-primary text-light shadow-sm">
+            <div class="card-body">
+                <p class="card-text">
+                    Hi, how can I help you?
+                </p>
+            </div>
+        </div>
+
+        <div class="card message-card shadow-sm">
+            <div class="card-body">
+                <p class="card-text">
+                    I am having troubles with this.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div id="client-message-form">
+        <form method="POST">
+            <input type="text" placeholder="Message.." class="form-control d-inline w-75 shadow-sm">
+            <button type="submit" class="btn btn-primary shadow-sm d-inline"><i class="fa fa-paper-plane"></i></button>                
+        </form>        
+    </div>
+</div>
+
+
+<div class="modal fade" id="client-init-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Please enter your information to continue</h5>
+            </div>
+            <form method="POST" autocomplete="off">
+                <div class="modal-body">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" autocomplete="off" required>
+
+                    <br>
+                    
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" autocomplete="off" required>
+
+                    <br>
+
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control" name="phone">
+                </div>
+
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>          
+            </form>
+        </div>
+    </div>
+</div>
+
+<% if (!user_data) { %>
+<script>
+    let client_init_modal = new bootstrap.Modal(document.getElementById("client-init-modal"), {
+        keyboard: false,
+        backdrop: 'static'
+    });
+
+    client_init_modal.show();
+</script>
+<% } %>

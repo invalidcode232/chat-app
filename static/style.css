@@ -10,13 +10,40 @@
     font-weight: bold;
 }
 
-#chat-container {
+
+#client-message-container {
+    width: 60vw;
+    height: 75vh;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.125);
+    padding: 10px;
+}
+
+#client-message-form {
+    width: 60vw;
+    height: 75vh;
+}
+
+#chats-container {
     width: 380px;
     height: 90vh;
 }
 
 #message-container {
     height: 75vh;
+    width: 65vw;
+}
+
+.message-card {
+    border-radius: 15px 15px 15px 0px;
+    width: 20rem;
+    float: left;
+    clear: both;
+}
+
+.inverse {
+    border-radius: 15px 15px 0px 15px;
+    float: right;
 }
 
 .card-body {

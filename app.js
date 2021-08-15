@@ -12,27 +12,54 @@ const app = express()
 
 // Set our views directory and engine
 app.engine('ejs', require('ejs-locals'))
+
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', 'ejs');
+
+app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.urlencoded());
+
+//Set our express session
+app.use(session({
+    secret: config.session_secret,
+    saveUninitialized: false,
+    name: 'uniqueSessionID',
+    resave: false
+}));
 //#endregion
 
 
 //#region Main
 app.get('/dashboard', (req, res) => {
     res.render('dashboard.ejs', {
-        page: 'Dashboard'
-    })
-})
+        app_name: config.app_name,
+        page: 'Dashboard',
+        is_user_page: true,
+    });
+});
 
 app.get('/chat', (req, res) => {
+    res.render('chat.ejs', {
+        app_name: config.app_name,
+        page: 'Live Chat',
+        is_user_page: false,
+        user_data: req.session.user_data
+    });
 
-})
+    console.log(req.session.user_data)
+});
+
+app.post('/chat', (req, res) => {
+    // console.log(req.body);
+    req.session.user_data = req.body;
+
+    res.redirect('/chat');
+});
 //#endregion
 
 
 //#region Listener
 app.listen(config.port, () => {
-    console.log(`chat-app running at port ${config.port}!`)
-})
+    console.log(`${config.app_name} running at port ${config.port}! http://localhost:3000/dashboard`);
+});
 //#endregion

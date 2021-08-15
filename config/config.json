@@ -1,3 +1,5 @@
 {
+    "app_name": "chat-client",
+    "session_secret": "asdsa",
     "port": 3000
 }
