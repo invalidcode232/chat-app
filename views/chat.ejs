@@ -50,7 +50,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Please enter your information to continue</h5>
             </div>
-            <form method="POST" autocomplete="off">
+            <form method="POST" autocomplete="off" id="client-init-form">
                 <div class="modal-body">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" autocomplete="off" required>
@@ -67,7 +67,6 @@
                 </div>
 
                 <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>          
             </form>
@@ -75,7 +74,7 @@
     </div>
 </div>
 
-<% if (!user_data) { %>
+<% if (!client_data) { %>
 <script>
     let client_init_modal = new bootstrap.Modal(document.getElementById("client-init-modal"), {
         keyboard: false,
@@ -83,5 +82,9 @@
     });
 
     client_init_modal.show();
+</script>
+<% } else { %>
+<script>
+    document.getElementById("client-init-form").setAttribute("data-email", <%= client_data.email %>);
 </script>
 <% } %>

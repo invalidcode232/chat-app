@@ -43,15 +43,14 @@ app.get('/chat', (req, res) => {
         app_name: config.app_name,
         page: 'Live Chat',
         is_user_page: false,
-        user_data: req.session.user_data
+        client_data: req.session.client_data
     });
 
-    console.log(req.session.user_data)
+    console.log(req.session.client_data)
 });
 
 app.post('/chat', (req, res) => {
-    // console.log(req.body);
-    req.session.user_data = req.body;
+    req.session.client_data = req.body;
 
     res.redirect('/chat');
 });
