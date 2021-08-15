@@ -94,7 +94,15 @@ app.post('/chat', (req, res) => {
 
 //#region Socket
 io.on('connection', (socket) => {
-    console.log("socket test!");
+    socket.on("session-message", message_data => {
+        let sql = "INSERT INTO `whatsapp`.`messages` (`id`, `session_id`, `body`, `sender`, `timestamp`) VALUES (DEFAULT, ?, ?, ?, FROM_UNIXTIME(?));";
+
+        con.query(sql, [message_data.session_id, message_data.body, message_data.sender, message_data.timestamp], (err, res) => {
+            if (err) throw err;
+        })
+
+        socket.broadcast.emit("display-message", message_data);
+    })
 })
 //#endregion
 
