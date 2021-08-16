@@ -1,3 +1,5 @@
+const socket = io("http://localhost:4000", { transports : ['websocket'] });
+
 const message = {
     new: function(container, from_me, body) {
         let card = document.createElement("div");

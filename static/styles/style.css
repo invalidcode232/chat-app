@@ -17,6 +17,7 @@
     border-radius: 10px;
     border: 1px solid rgba(0,0,0,.125);
     padding: 15px;
+    overflow: scroll;
 }
 
 #client-message-form {
@@ -27,11 +28,13 @@
 #chats-container {
     width: 380px;
     height: 90vh;
+    overflow: scroll;
 }
 
-#message-container {
+#messages-container {
     height: 75vh;
     width: 65vw;
+    overflow: scroll;
 }
 
 .message-card {

@@ -8,7 +8,7 @@
             <span class="fs-5 fw-semibold">Chats</span>
         </a>
         <div class="list-group list-group-flush border-bottom shadow-sm">
-            <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+            <!-- <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
                 <div class="d-flex w-100 align-items-center justify-content-between">
                     <strong class="mb-1">Client 1</strong>
                     <small>Wed</small>
@@ -21,13 +21,22 @@
                     <small class="text-muted">Thu</small>
                 </div>
                 <div class="col-10 mb-1 small">Remind me at 9PM tomorrow.</div>
-            </a>
+            </a> -->
+            <% for (i in sessions) { %>
+                <a href="?session_id=<%= sessions[i].id %>" class="list-group-item list-group-item-action py-3 lh-tight" data-session-id="<%= sessions[i].id %>">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1"><%= sessions[i].client_name %></strong>
+                        <small class="text-muted"><%= sessions[i].timestamp %></small>
+                    </div>
+                    <div class="col-10 mb-1 small"><%= sessions[i].body %></div>
+                </a>
+            <% } %>
         </div>        
     </div>
 
     <div class="flex-fill shadow-sm">
         <div class="container p-4">
-            <div id="message-container">
+            <div id="messages-container">
                 <div class="card shadow mb-4" id="profile-card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -42,37 +51,32 @@
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
-                        <!-- <button class="btn btn-primary"><i class="fa fa-envelope"></i></button> -->
-                    </div>
-                </div>
-                
-                <div class="card message-card shadow-sm">
-                    <div class="card-body">
-                        <p class="card-text">
-                            Hello!
-                        </p>
                     </div>
                 </div>
 
-                <div class="card message-card inverse bg-primary text-light shadow-sm">
-                    <div class="card-body">
-                        <p class="card-text">
-                            Hi, how can I help you?
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card message-card shadow-sm">
-                    <div class="card-body">
-                        <p class="card-text">
-                            I am having troubles with this.
-                        </p>
-                    </div>
-                </div>
+                <% for (i in messages) { %>
+                    <% if (messages[i].sender == "client") { %>
+                        <div class="card message-card shadow-sm">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <%= messages[i].body %>
+                                </p>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="card message-card inverse bg-primary text-light shadow-sm">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <%= messages[i].body %>
+                                </p>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
             </div>
 
-            <form method="POST">
-                <input type="text" placeholder="Message.." class="form-control w-75 d-inline shadow-sm">
+            <form id="message-form">
+                <input type="text" placeholder="Message.." class="form-control w-75 d-inline shadow-sm" id="message-input">
                 <button type="submit" class="btn btn-primary shadow-sm"><i class="fa fa-paper-plane"></i></button>                
             </form>
         </div>
@@ -95,3 +99,5 @@
         </div>
     </div>
 </div>
+
+<script src="scripts/dashboard.js"></script>
