@@ -33,18 +33,18 @@ app.use(session({
 
 utils.log(`Express app successfully set up!`)
 
-const con = mysql.createConnection({
+const con = mysql.createPool({
     host: constants.DB_HOST,
     user: constants.DB_USER,
     password: constants.DB_PASSWORD,
     database: constants.DB_NAME,
 });
 
-con.connect((err) => {
-    if (err) throw err;
+// con.connect((err) => {
+//     if (err) throw err;
 
-    utils.log(`Database "${constants.DB_NAME}" connected!`)
-});
+//     utils.log(`Database "${constants.DB_NAME}" connected!`)
+// });
 //#endregion
 
 
@@ -96,12 +96,12 @@ app.post('/chat', (req, res) => {
     con.query(insert_sql, [name, email, phone, "active", utils.get_timestamp().toString()], (err, result) => {
         if (err) throw err;
 
-        let get_insert_sql = "SELECT LAST_INSERT_ID();"
+        let get_insert_sql = "SELECT id FROM sessions ORDER BY timestamp DESC LIMIT 1;"
         con.query(get_insert_sql, (err, result) => {
             if (err) throw err;
     
             // utils.log(res[0]["LAST_INSERT_ID()"]);
-            req.session.session_id = result[0]["LAST_INSERT_ID()"];
+            req.session.session_id = result[0]["id"];
 
             res.redirect("/chat");
         })
