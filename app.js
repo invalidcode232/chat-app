@@ -6,6 +6,8 @@ const path = require('path');
 const mysql = require('mysql');
 const utils = require('./utils/utils');
 const io = require('socket.io')(4000);
+// const io_client = require('socket.io-client');
+// const socket = io_client("http://localhost:4000", { transports : ['websocket'] });
 //#endregion
 
 
@@ -50,6 +52,13 @@ con.connect((err) => {
 
 //#region Express
 app.get('/dashboard', (req, res) => {
+    let sql = "SELECT * FROM sessions";
+    con.query(sql, (err, res) => {
+        if (err) throw err;
+
+        // console.log(res);
+    });
+
     res.render('dashboard.ejs', {
         app_name: config.app_name,
         page: 'Dashboard',
@@ -86,6 +95,12 @@ app.post('/chat', (req, res) => {
             // utils.log(res[0]["LAST_INSERT_ID()"]);
             req.session.session_id = result[0]["LAST_INSERT_ID()"];
     
+            // socket.emit("new-session", {
+            //     name: name,
+            //     email: email,
+            //     phone: phone
+            // })
+
             res.redirect("/chat");
         })
     })
@@ -94,6 +109,10 @@ app.post('/chat', (req, res) => {
 
 //#region Socket
 io.on('connection', (socket) => {
+    socket.on('join', (room) => {
+        socket.join(room);
+    })
+
     socket.on("session-message", message_data => {
         let sql = "INSERT INTO `whatsapp`.`messages` (`id`, `session_id`, `body`, `sender`, `timestamp`) VALUES (DEFAULT, ?, ?, ?, FROM_UNIXTIME(?));";
 
@@ -101,7 +120,7 @@ io.on('connection', (socket) => {
             if (err) throw err;
         })
 
-        socket.broadcast.emit("display-message", message_data);
+        io.in(message_data.session_id).emit("display-message", message_data);
     })
 })
 //#endregion
