@@ -26,7 +26,7 @@ app.use(express.urlencoded());
 
 // Set our express session
 app.use(session({
-    secret: config.session_secret,
+    secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     name: 'uniqueSessionID',
     resave: false
@@ -35,11 +35,18 @@ app.use(session({
 utils.log(`Express app successfully set up!`)
 
 // Connect to database
+// const con = mysql.createConnection({
+//     host: config.db_host,
+//     user: config.db_user,
+//     password: config.db_password,
+//     database: config.db_name,
+// });
+
 const con = mysql.createConnection({
-    host: config.db_host,
-    user: config.db_user,
-    password: config.db_password,
-    database: config.db_name,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 });
 
 con.connect((err) => {
