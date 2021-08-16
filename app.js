@@ -40,11 +40,7 @@ const con = mysql.createPool({
     database: constants.DB_NAME,
 });
 
-// con.connect((err) => {
-//     if (err) throw err;
-
-//     utils.log(`Database "${constants.DB_NAME}" connected!`)
-// });
+utils.log(`Database "${constants.DB_NAME}" connected!`)
 //#endregion
 
 
