@@ -142,7 +142,7 @@ io.on('connection', (socket) => {
 
 
 //#region Listener
-app.listen(config.port, () => {
+app.listen(process.env.PORT || config.port, () => {
     utils.log(`App running at port ${config.port}! http://localhost:3000/dashboard`);
 });
 //#endregion
