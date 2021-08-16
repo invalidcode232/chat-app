@@ -1,4 +1,6 @@
-const socket = io("http://localhost:4000", { transports : ['websocket'] });
+let io_loc = window.location.protocol +  "//" + window.location.hostname + ":" + window.location.port + "/socket.io/socket.io.js"
+
+const socket = io(io_loc, { transports : ['websocket'] });
 
 const message = {
     new: function(container, from_me, body) {

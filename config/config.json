@@ -1,10 +1,4 @@
 {
     "app_name": "chat-client",
-    "session_secret": "asdsa",
-    "port": 3000,
-
-    "db_host": "localhost",
-    "db_user": "root",
-    "db_password": "toor",
-    "db_name": "whatsapp"
+    "port": 3000
 }
