@@ -6,12 +6,13 @@ const constants = require('./config/constants');
 const path = require('path');
 const mysql = require('mysql');
 const utils = require('./utils/utils');
-const io = require('socket.io')(4000);
 //#endregion
 
 //#region setup
 // Init app
-const app = express()
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 // Set our views directory and engine
 app.engine('ejs', require('ejs-locals'))
@@ -132,7 +133,7 @@ io.on('connection', (socket) => {
 
 
 //#region Listener
-app.listen(constants.PORT, () => {
+server.listen(constants.PORT, () => {
     utils.log(`App running at port ${constants.PORT}! http://localhost:3000/dashboard`);
 });
 //#endregion
