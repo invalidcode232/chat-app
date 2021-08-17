@@ -48,22 +48,29 @@ utils.log(`Database "${constants.DB_NAME}" connected!`)
 app.get('/dashboard', (req, res) => {
     let session_id = req.query.session_id ? req.query.session_id : 1;
 
-    let sessions_sql = "SELECT sessions.id, sessions.client_name, messages.body, messages.timestamp FROM sessions LEFT JOIN messages ON sessions.id = messages.session_id WHERE sessions.status = 'active' GROUP BY sessions.id ORDER BY messages.timestamp DESC";
+    // Get sidebar contacts info
+    let sessions_sql = "SELECT sessions.client_email, sessions.client_phone, sessions.id, sessions.client_name, messages.body, messages.timestamp FROM sessions LEFT JOIN messages ON sessions.id = messages.session_id WHERE sessions.status = 'active' GROUP BY sessions.id ORDER BY messages.timestamp DESC";
     con.query(sessions_sql, (err, rows) => {
         if (err) throw err;
 
         let sessions = JSON.parse(JSON.stringify(rows));
 
+        // Get selected contact info
         let messages_sql = "SELECT body, sender, timestamp FROM messages WHERE session_id = ?";
         con.query(messages_sql, [ session_id ], (err, rows) => {
-            messages = JSON.parse(JSON.stringify(rows))
+            if (err) throw err;
+
+            let messages = JSON.parse(JSON.stringify(rows));
+
+            let selected_session = utils.find_obj(sessions, "id", session_id)
 
             res.render('dashboard.ejs', {
                 app_name: config.app_name,
                 page: 'Dashboard',
                 is_user_page: true,
                 sessions: sessions,
-                messages: messages
+                messages: messages,
+                selected_session: selected_session
             });            
         })
     });
@@ -103,6 +110,10 @@ app.post('/chat', (req, res) => {
         })
     })
 });
+
+app.get("/register", (req, res) => {
+    
+})
 //#endregion
 
 //#region Socket

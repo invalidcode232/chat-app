@@ -23,6 +23,15 @@
                 <div class="col-10 mb-1 small">Remind me at 9PM tomorrow.</div>
             </a> -->
             <% for (i in sessions) { %>
+                <% if (sessions[i].id == selected_session.id) { %>
+                    <a href="?session_id=<%= sessions[i].id %>" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1"><%= sessions[i].client_name %></strong>
+                            <small><%= sessions[i].timestamp %></small>
+                        </div>
+                        <div class="col-10 mb-1 small"><%= sessions[i].body %></div>
+                    </a>
+                <% } else { %>
                 <a href="?session_id=<%= sessions[i].id %>" class="list-group-item list-group-item-action py-3 lh-tight" data-session-id="<%= sessions[i].id %>">
                     <div class="d-flex w-100 align-items-center justify-content-between">
                         <strong class="mb-1"><%= sessions[i].client_name %></strong>
@@ -30,6 +39,7 @@
                     </div>
                     <div class="col-10 mb-1 small"><%= sessions[i].body %></div>
                 </a>
+                <% } %>
             <% } %>
         </div>        
     </div>
@@ -41,14 +51,14 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h6 class="card-title fw-bold">Client 1</h5>
-                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i>(+1) 123-456-789</small>  
-                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i>example@example.com</small>  
+                                <h6 class="card-title fw-bold"><%= selected_session.client_name %></h5>
+                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i><%= selected_session.client_phone %></small>  
+                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i><%= selected_session.client_email %></small>  
                             </div>                           
 
                             <div>
-                                <a class="btn btn-secondary" href="mailto:example@example.com"><i class="fa fa-envelope"></i></a>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i class="fa fa-trash"></i></button>
+                                <a class="btn btn-secondary" href="mailto:<%= selected_session.client_email %>"><i class="fa fa-envelope"></i></a>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal" data-session-id="<%= selected_session.id %>"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                     </div>
