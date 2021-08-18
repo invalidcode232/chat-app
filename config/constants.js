@@ -6,5 +6,7 @@ module.exports = {
     DB_USER: process.env.DB_USER,
     DB_PASSWORD: process.env.DB_PASSWORD,
     DB_NAME: process.env.DB_NAME,
-    SESSION_SECRET: process.env.SESSION_SECRET
+    SESSION_SECRET: process.env.SESSION_SECRET,
+    RECAPTCHA_SITE_KEY: process.env.RECAPTCHA_SITE_KEY,
+    RECAPTCHA_SECRET_KEY: process.env.RECAPTCHA_SECRET_KEY,
 }

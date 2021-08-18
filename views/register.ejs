@@ -4,13 +4,18 @@
     <div class="d-flex justify-content-center">
         <div class="card shadow-lg mt-4 w-50">
             <div class="card-body">
-                <h5 class="card-title">Log in</h5> 
+                <h5 class="card-title">Register</h5> 
 
                 <hr>
                 
                 <form method="POST">
                     <label class="form-label">Email</label>
                     <input type="email" class="form-control w-75" name="email" required>
+
+                    <br>
+
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control w-75" name="username" required>
 
                     <br>
 
@@ -21,7 +26,7 @@
 
                     <%- captcha %>
 
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-primary">Register</button>
                 </form>
             </div>
         </div>          

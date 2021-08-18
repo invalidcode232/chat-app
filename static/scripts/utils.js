@@ -33,3 +33,12 @@ function generate_id() {
     }
     return result;
 }
+
+function recaptcha_cb(token){
+    let input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('name', 'g-recaptcha-response');
+    input.setAttribute('value', token);
+    input.setAttribute('hidden', '');
+    document.getElementsByTagName('form')[0].appendChild(input);
+}

@@ -47,6 +47,7 @@
     <div class="flex-fill shadow-sm">
         <div class="container p-4">
             <div id="messages-container">
+                <% if (selected_session.id) { %>
                 <div class="card shadow mb-4" id="profile-card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -63,6 +64,7 @@
                         </div>
                     </div>
                 </div>
+                <% } %>
 
                 <% for (i in messages) { %>
                     <% if (messages[i].sender == "client") { %>
