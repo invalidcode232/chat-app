@@ -8,20 +8,6 @@
             <span class="fs-5 fw-semibold">Chats</span>
         </a>
         <div class="list-group list-group-flush border-bottom shadow-sm">
-            <!-- <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">Client 1</strong>
-                    <small>Wed</small>
-                </div>
-                <div class="col-10 mb-1 small">Okay, got it!</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">Client 2</strong>
-                    <small class="text-muted">Thu</small>
-                </div>
-                <div class="col-10 mb-1 small">Remind me at 9PM tomorrow.</div>
-            </a> -->
             <% for (i in sessions) { %>
                 <% if (sessions[i].id == selected_session.id) { %>
                     <a href="?session_id=<%= sessions[i].id %>" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
@@ -46,51 +32,51 @@
 
     <div class="flex-fill shadow-sm">
         <div class="container p-4">
-            <div id="messages-container">
-                <% if (selected_session.id) { %>
-                <div class="card shadow mb-4" id="profile-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="card-title fw-bold"><%= selected_session.client_name %></h5>
-                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i><%= selected_session.client_phone %></small>  
-                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i><%= selected_session.client_email %></small>  
-                            </div>                           
+            <% if (selected_session.id) { %>
+                <div id="messages-container">
+                    <div class="card shadow mb-4" id="profile-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title fw-bold"><%= selected_session.client_name %></h5>
+                                    <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i><%= selected_session.client_phone %></small>  
+                                    <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i><%= selected_session.client_email %></small>  
+                                </div>                           
 
-                            <div>
-                                <a class="btn btn-secondary" href="mailto:<%= selected_session.client_email %>"><i class="fa fa-envelope"></i></a>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal" data-session-id="<%= selected_session.id %>"><i class="fa fa-trash"></i></button>
+                                <div>
+                                    <a class="btn btn-secondary" href="mailto:<%= selected_session.client_email %>"><i class="fa fa-envelope"></i></a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal" data-session-id="<%= selected_session.id %>"><i class="fa fa-trash"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <% } %>
 
-                <% for (i in messages) { %>
-                    <% if (messages[i].sender == "client") { %>
-                        <div class="card message-card shadow-sm">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <%= messages[i].body %>
-                                </p>
+                    <% for (i in messages) { %>
+                        <% if (messages[i].sender == "client") { %>
+                            <div class="card message-card shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <%= messages[i].body %>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    <% } else { %>
-                        <div class="card message-card inverse bg-primary text-light shadow-sm">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <%= messages[i].body %>
-                                </p>
+                        <% } else { %>
+                            <div class="card message-card inverse bg-primary text-light shadow-sm">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <%= messages[i].body %>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        <% } %>
                     <% } %>
-                <% } %>
-            </div>
+                </div>
 
-            <form id="message-form">
-                <input type="text" placeholder="Message.." class="form-control w-75 d-inline shadow-sm" id="message-input">
-                <button type="submit" class="btn btn-primary shadow-sm"><i class="fa fa-paper-plane"></i></button>                
-            </form>
+                <form id="message-form">
+                    <input type="text" placeholder="Message.." class="form-control w-75 d-inline shadow-sm" id="message-input">
+                    <button type="submit" class="btn btn-primary shadow-sm"><i class="fa fa-paper-plane"></i></button>                
+                </form>
+            <% } %>
         </div>
     </div>
 </div>

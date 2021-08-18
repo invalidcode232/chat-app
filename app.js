@@ -50,6 +50,10 @@ utils.log(`Database "${constants.DB_NAME}" connected!`)
 
 //#region Express
 app.get('/dashboard', (req, res) => {
+    if (!req.session.user_id) {
+        return res.redirect("/login");
+    }
+
     let session_id = req.query.session_id ? req.query.session_id : 1;
 
     // Get sidebar contacts info
@@ -227,6 +231,6 @@ io.on('connection', (socket) => {
 
 //#region Listener
 server.listen(constants.PORT, () => {
-    utils.log(`App running at port ${constants.PORT}! Dashboard URL: http://localhost:3000/dashboard`);
+    utils.log(`App running at port ${constants.PORT}! Dashboard URL: http://localhost:${constants.PORT}/dashboard`);
 });
 //#endregion
