@@ -157,6 +157,10 @@ app.post("/register", recaptcha.middleware.verify, (req, res) => {
 });
 
 app.get("/login", recaptcha.middleware.render, (req, res) => {
+    if (req.session.user_id) {
+        return res.redirect("/dashboard");
+    }
+
     res.render("login.ejs", {
         app_name: config.app_name,
         page: 'Login',
@@ -204,6 +208,12 @@ app.post("/login", recaptcha.middleware.verify, (req, res) => {
         })
     })
 })
+
+app.get("/logout", (req, res) => {
+    req.session.user_id = null;
+
+    res.redirect("/login");
+})
 //#endregion
 
 //#region Socket
@@ -217,13 +227,29 @@ io.on('connection', (socket) => {
     })
 
     socket.on("session-message", message_data => {
-        let sql = "INSERT INTO `messages` (`id`, `session_id`, `body`, `sender`, `timestamp`) VALUES (DEFAULT, ?, ?, ?, FROM_UNIXTIME(?));";
+        let msg_sql = "INSERT INTO `messages` (`id`, `session_id`, `body`, `sender`, `timestamp`) VALUES (DEFAULT, ?, ?, ?, FROM_UNIXTIME(?));";
 
-        con.query(sql, [room, message_data.body, message_data.sender, message_data.timestamp], (err, res) => {
+        con.query(msg_sql, [room, message_data.body, message_data.sender, message_data.timestamp], (err, res) => {
+            if (err) throw err;
+        })
+
+        let notifs_sql = "INSERT INTO `notifications` (`message_id`) VALUES ((SELECT id FROM messages WHERE session_id = ? ORDER BY timestamp DESC LIMIT 1));"
+        con.query(notifs_sql, [room], (err, res) => {
             if (err) throw err;
         })
 
         socket.to(room).emit("display-message", message_data);
+    })
+
+    socket.on("get-notifications", () => {
+        let sql = "SELECT * FROM notifications JOIN messages ON messages.id = notifications.message_id"
+        con.query(sql, (err, res) => {
+            if (err) throw err;
+
+            let rows = JSON.stringify(res);
+
+            socket.emit("display-notifications", rows);
+        })
     })
 })
 //#endregion

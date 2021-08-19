@@ -1,5 +1,3 @@
-let io_loc = window.location.protocol +  "//" + window.location.hostname + ":" + window.location.port + "/socket.io/socket.io.js"
-
 const socket = io();
 
 const message = {
