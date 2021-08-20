@@ -1,6 +1,11 @@
 let notifs_table = document.getElementById("notifs-table");
+let notifs_btn = document.getElementById("notifs-btn");
 
-socket.emit("get-notifications");
+// socket.emit("get-notifications");
+
+notifs_btn.addEventListener("click", (e) => {
+    socket.emit("get-notifications");
+})
 
 socket.on("display-notifications", (notifications) => {
     notifications = JSON.parse(notifications)

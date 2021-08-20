@@ -23,3 +23,7 @@ socket.emit('join', session_id);
 socket.on("display-message", message_data => {
     message.new(messages_container, false, message_data.body);
 })
+
+message_input.addEventListener("keyup", (e) => {
+    socket.emit("client-type", session_id);
+})

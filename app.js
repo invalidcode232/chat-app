@@ -139,7 +139,7 @@ app.post("/register", recaptcha.middleware.verify, (req, res) => {
         }
     }
     else {
-        return res.json("Recaptcha error.")
+        return res.json(req.recaptcha.error)
     }
 
     bcrypt.hash(password, 10, (err, hash) => {
@@ -179,7 +179,7 @@ app.post("/login", recaptcha.middleware.verify, (req, res) => {
         }
     }
     else {
-        return res.json("Recaptcha error.");
+        return res.json(req.recaptcha.error);
     }
 
     let sql = "SELECT * FROM users WHERE email = ?;";
@@ -239,6 +239,10 @@ io.on('connection', (socket) => {
         })
 
         socket.to(room).emit("display-message", message_data);
+    })
+
+    socket.on("client-type", () => {
+        socket.to(room).emit("display-typing", room);
     })
 
     socket.on("get-notifications", () => {
