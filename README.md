@@ -7,6 +7,7 @@
 Features:
 - Real time chat messaging.
 - Session-based chat system.
+- Notification system
 - Secure login and registration system with database password encryption and reCAPTCHA.
 
 ## App setup
