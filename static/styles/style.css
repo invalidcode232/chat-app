@@ -32,6 +32,10 @@
     overflow-x: hidden;
 }
 
+#client-message-form {
+    height: 0px;
+}
+
 #messages-container {
     height: 75vh;
     width: 65vw;

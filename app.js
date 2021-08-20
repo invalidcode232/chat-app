@@ -8,6 +8,7 @@ const mysql = require('mysql');
 const utils = require('./utils/utils');
 const Recaptcha = require('express-recaptcha').RecaptchaV3;
 const bcrypt = require('bcrypt');
+// const sharedsession = require("express-socket.io-session");
 //#endregion
 
 //#region setup
@@ -28,12 +29,14 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Set our express session
-app.use(session({
+let session_config = {
     secret: constants.SESSION_SECRET,
-    saveUninitialized: false,
-    name: 'uniqueSessionID',
-    resave: false
-}));
+    saveUninitialized: true,
+    resave: true
+}
+
+app.use(session(session_config));
+// io.use(sharedsession(session_config));
 
 utils.log(`Express app successfully set up!`)
 
@@ -218,6 +221,8 @@ app.get("/logout", (req, res) => {
 
 //#region Socket
 io.on('connection', (socket) => {
+    // console.log(socket.handshake.session);
+
     let room = 0;
 
     socket.on('join', (session) => {
@@ -242,17 +247,26 @@ io.on('connection', (socket) => {
     })
 
     socket.on("client-type", () => {
-        socket.to(room).emit("display-typing", room);
+        socket.to(room).emit("user-display-typing", room);
+    })
+
+    socket.on("user-type", () => {
+        socket.to(room).emit("client-display-typing");
     })
 
     socket.on("get-notifications", () => {
-        let sql = "SELECT * FROM notifications JOIN messages ON messages.id = notifications.message_id"
+        let sql = "SELECT * FROM notifications JOIN messages ON messages.id = notifications.message_id WHERE sender = 'client'";
         con.query(sql, (err, res) => {
             if (err) throw err;
 
             let rows = JSON.stringify(res);
 
             socket.emit("display-notifications", rows);
+
+            let del_sql = "DELETE FROM notifications WHERE message_id > 0";
+            con.query(del_sql, (err, res) => {
+                if (err) throw err;
+            })
         })
     })
 })

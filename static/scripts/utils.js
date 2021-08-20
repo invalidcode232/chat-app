@@ -1,4 +1,6 @@
-const socket = io();
+const socket = io({
+    "transports": ["websocket"]
+});
 
 const message = {
     new: function(container, from_me, body) {

@@ -11,13 +11,17 @@ socket.on("display-message", message_data => {
     message.new(messages_container, false, message_data.body);
 })
 
-socket.on("display-typing", data => {
+socket.on("user-display-typing", data => {
     typing_ind.innerText = "Typing...";
 })
 
 setInterval(() => {
     typing_ind.innerText = "";
 }, 3000);
+
+message_input.addEventListener("keyup", (e) => {
+    socket.emit("user-type");
+})
 
 message_form.addEventListener("submit", (e) => {
     e.preventDefault();
