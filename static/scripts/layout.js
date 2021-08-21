@@ -1,19 +1,25 @@
 let notifs_table = document.getElementById("notifs-table");
 let notifs_btn = document.getElementById("notifs-btn");
+let notifs_num_ind = document.getElementById("notifs-num-ind");
+let notifs_count = 0;
 
-// socket.emit("get-notifications");
+socket.emit("get-notifications");
 
 notifs_btn.addEventListener("click", (e) => {
     socket.emit("get-notifications");
+    notifs_count = 0;
 })
 
 socket.on("display-notifications", (notifications) => {
-    notifications = JSON.parse(notifications)
+    notifications = JSON.parse(notifications);
+
+    notifs_table.innerHTML = "";
+
     for (i in notifications) {
         let tr = document.createElement("tr");
         let th = document.createElement("th");
         th.setAttribute("scope", "row");
-        th.innerText = notifications[i].message_id;
+        th.innerText = notifs_count;
 
         let td_msg = document.createElement("td");
         td_msg.innerText = notifications[i].body;
@@ -34,5 +40,9 @@ socket.on("display-notifications", (notifications) => {
         tr.appendChild(td_view);
 
         notifs_table.appendChild(tr);
+
+        notifs_count++;
     }
+
+    notifs_num_ind.innerText = notifs_count;
 })

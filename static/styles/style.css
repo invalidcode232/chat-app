@@ -10,6 +10,9 @@
     font-weight: bold;
 }
 
+#profile-card {
+    width: 60vw;
+}
 
 #client-messages-container {
     width: 60vw;
@@ -35,6 +38,22 @@
 #client-message-form {
     height: 0px;
 }
+
+/* span.num {
+    position: absolute;
+    font-size: 0.3em;
+    top: 1px;
+    color: #fff;
+    right: 2px;
+}
+
+span.fa-comment {
+    position: absolute;
+    font-size: 0.6em;
+    top: -4px;
+    color: red;
+    right: -4px;
+} */
 
 #messages-container {
     height: 75vh;

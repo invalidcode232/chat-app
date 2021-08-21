@@ -35,8 +35,9 @@ let session_config = {
     resave: true
 }
 
-app.use(session(session_config));
-// io.use(sharedsession(session_config));
+let session_middleware = session(session_config)
+
+app.use(session_middleware);
 
 utils.log(`Express app successfully set up!`)
 
@@ -48,6 +49,12 @@ const con = mysql.createPool({
 });
 
 utils.log(`Database "${constants.DB_NAME}" connected!`)
+
+let users = [];
+utils.get_users().then((res) => {
+    utils.log("Received users database");
+    users = JSON.parse(res);
+});
 //#endregion
 
 
@@ -156,6 +163,10 @@ app.post("/register", recaptcha.middleware.verify, (req, res) => {
         })
     })
 
+    utils.get_users().then((res) => {
+        users = res;
+    });
+
     res.redirect("/register");
 });
 
@@ -220,8 +231,15 @@ app.get("/logout", (req, res) => {
 //#endregion
 
 //#region Socket
+io.use((socket, next) => {
+    session_middleware(socket.request, {}, next);
+})
+
 io.on('connection', (socket) => {
-    // console.log(socket.handshake.session);
+    // Join the user to the users socket
+    if (socket.request.session.user_id) {
+        socket.join(socket.request.session.user_id)
+    }
 
     let room = 0;
 
@@ -244,6 +262,15 @@ io.on('connection', (socket) => {
         })
 
         socket.to(room).emit("display-message", message_data);
+
+        let notif_data = [
+            message_data
+        ]
+
+        // Send notification socket to all users
+        for (i in users) {
+            socket.to(users[i].id).emit("display-notifications", JSON.stringify(notif_data));
+        }
     })
 
     socket.on("client-type", () => {
@@ -261,7 +288,9 @@ io.on('connection', (socket) => {
 
             let rows = JSON.stringify(res);
 
-            socket.emit("display-notifications", rows);
+            for (i in users) {
+                socket.to(users[i].id).emit("display-notifications", rows);
+            }
 
             let del_sql = "DELETE FROM notifications WHERE message_id > 0";
             con.query(del_sql, (err, res) => {
