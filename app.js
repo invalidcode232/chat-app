@@ -250,6 +250,10 @@ io.on('connection', (socket) => {
     })
 
     socket.on("session-message", message_data => {
+        if (!message_data.body || message_data.body == "" || !message_data.sender || !message_data.timestamp) {
+            return;
+        }
+
         let msg_sql = "INSERT INTO `messages` (`id`, `session_id`, `body`, `sender`, `timestamp`) VALUES (DEFAULT, ?, ?, ?, ?);";
 
         con.query(msg_sql, [room, message_data.body, message_data.sender, message_data.timestamp], (err, res) => {
