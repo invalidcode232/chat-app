@@ -3,10 +3,7 @@ let notifs_btn = document.getElementById("notifs-btn");
 let notifs_num_ind = document.getElementById("notifs-num-ind");
 let notifs_count = 0;
 
-socket.emit("get-notifications");
-
 notifs_btn.addEventListener("click", (e) => {
-    socket.emit("get-notifications");
     notifs_count = 0;
 })
 
@@ -16,8 +13,10 @@ socket.on("display-notifications", (notifications) => {
     notifs_table.innerHTML = "";
 
     for (i in notifications) {
+
         let tr = document.createElement("tr");
         let th = document.createElement("th");
+
         th.setAttribute("scope", "row");
         th.innerText = notifs_count;
 

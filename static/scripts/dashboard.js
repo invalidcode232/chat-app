@@ -19,21 +19,29 @@ setInterval(() => {
     typing_ind.innerText = "";
 }, 3000);
 
-message_input.addEventListener("keyup", (e) => {
-    socket.emit("user-type");
-})
+if (message_input != null) {
+    message_input.addEventListener("keyup", (e) => {
+        socket.emit("user-type");
+    })
 
-message_form.addEventListener("submit", (e) => {
-    e.preventDefault();
+    message_form.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    message.new(messages_container, true, message_input.value);
+        message.new(messages_container, true, message_input.value);
 
-    let message_data = {
-        body: message_input.value,
-        timestamp: get_timestamp(),
-        sender: "user",
-    }
+        let message_data = {
+            body: message_input.value,
+            timestamp: get_timestamp(),
+            sender: "user",
+        }
 
-    socket.emit("session-message", message_data);
-    message_input.value = "";
+        socket.emit("session-message", message_data);
+        message_input.value = "";
+    })
+}
+
+socket.on("display-notifications", message_data => {
+    message_data = JSON.parse(message_data);
+    let message_text = document.getElementById(`messages-session-${message_data[0].session_id}`);
+    message_text.innerHTML = `<b> ${message_data[0].body} </b>`;
 })
