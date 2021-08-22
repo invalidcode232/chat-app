@@ -11,16 +11,20 @@
 }
 
 #profile-card {
+    z-index: 1;
     width: 60vw;
 }
 
 #client-messages-container {
     width: 60vw;
-    height: 75vh;
+    height: 68vh;
     border-radius: 10px;
     border: 1px solid rgba(0,0,0,.125);
     padding: 15px;
     overflow: scroll;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
 }
 
 #client-message-form {
@@ -60,6 +64,9 @@ span.fa-comment {
     width: 65vw;
     overflow: scroll;
     overflow-x: hidden;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
 }
 
 .message-card {
@@ -70,8 +77,9 @@ span.fa-comment {
 }
 
 .inverse {
+    display: flex;
+    align-self: flex-end;
     border-radius: 15px 15px 0px 15px;
-    float: right;
 }
 
 .card-body {

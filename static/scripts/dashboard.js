@@ -27,6 +27,10 @@ if (message_input != null) {
     message_form.addEventListener("submit", (e) => {
         e.preventDefault();
 
+        if (!message_input.value || message_input.value == "") {
+            return;
+        }
+
         message.new(messages_container, true, message_input.value);
 
         let message_data = {

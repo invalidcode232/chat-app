@@ -33,6 +33,22 @@
     <div class="flex-fill shadow-sm">
         <div class="container p-4">
             <% if (selected_session.id) { %>
+                <div class="card shadow mb-4 position-absolute" id="profile-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title fw-bold"><%= selected_session.client_name %></h5>
+                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i><%= selected_session.client_phone %></small>  
+                                <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i><%= selected_session.client_email %></small>  
+                            </div>                           
+
+                            <div>
+                                <a class="btn btn-secondary" href="mailto:<%= selected_session.client_email %>"><i class="fa fa-envelope"></i></a>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal" data-session-id="<%= selected_session.id %>"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="messages-container">
                     <% for (i in messages) { %>
                         <% if (messages[i].sender == "client") { %>
@@ -53,22 +69,6 @@
                             </div>
                         <% } %>
                     <% } %>
-                    <div class="card shadow mb-4 position-absolute" id="profile-card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h6 class="card-title fw-bold"><%= selected_session.client_name %></h5>
-                                    <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-phone-alt" style="margin-right: 8px;"></i><%= selected_session.client_phone %></small>  
-                                    <small class="card-subtitle text-muted d-inline-block"><i class="fa fa-at" style="margin-right: 4px;"></i><%= selected_session.client_email %></small>  
-                                </div>                           
-
-                                <div>
-                                    <a class="btn btn-secondary" href="mailto:<%= selected_session.client_email %>"><i class="fa fa-envelope"></i></a>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal" data-session-id="<%= selected_session.id %>"><i class="fa fa-trash"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <span class="text-muted" id="typing-ind"></span>
